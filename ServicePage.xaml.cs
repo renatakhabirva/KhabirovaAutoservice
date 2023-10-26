@@ -17,17 +17,20 @@ namespace KhabirovaAutoservice
 {
     /// <summary>
     /// Логика взаимодействия для ServicePage.xaml
-    /// </summary>
+    /// </summary
     public partial class ServicePage : Page
     {
         public ServicePage()
         {
             InitializeComponent();
+            var currentServices = habirova_autoserviceEntities.GetContext().Service.ToList();
+            ServiceListView.ItemsSource = currentServices;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEditPage());
+            
         }
     }
 }
