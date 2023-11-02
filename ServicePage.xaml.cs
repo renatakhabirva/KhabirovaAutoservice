@@ -63,7 +63,7 @@ namespace KhabirovaAutoservice
             if (RButton.IsChecked.Value)
             {
                 currentServices = currentServices.OrderBy(p => p.Cost).ToList();
-            }
+            } 
             ServiceListView.ItemsSource = currentServices;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
