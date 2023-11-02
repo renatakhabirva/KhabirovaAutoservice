@@ -94,16 +94,16 @@
 предупреждение 6002: В таблице или представлении "habirova_autoservice.dbo.Service" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Service">
           <Key>
-            <PropertyRef Name="Наименование_услуги" />
-            <PropertyRef Name="Длительность" />
-            <PropertyRef Name="Стоимость" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Duration" />
+            <PropertyRef Name="Cost" />
           </Key>
           <Property Name="ID" Type="int" />
-          <Property Name="Наименование_услуги" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Главное_изображение" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Длительность" Type="nvarchar" MaxLength="8" Nullable="false" />
-          <Property Name="Стоимость" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Действующая_скидка" Type="float" />
+          <Property Name="Duration" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="float" />
           <Property Name="Описание" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ServicePhoto">
@@ -278,11 +278,11 @@
           <EntitySet Name="Service" EntityType="Self.Service" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Service].[ID] AS [ID], 
-    [Service].[Наименование_услуги] AS [Наименование_услуги], 
+    [Service].[Title] AS [Title], 
     [Service].[Главное_изображение] AS [Главное_изображение], 
-    [Service].[Длительность] AS [Длительность], 
-    [Service].[Стоимость] AS [Стоимость], 
-    [Service].[Действующая_скидка] AS [Действующая_скидка], 
+    [Service].[Duration] AS [Duration], 
+    [Service].[Cost] AS [Cost], 
+    [Service].[Discount] AS [Discount], 
     [Service].[Описание] AS [Описание]
     FROM [dbo].[Service] AS [Service]</DefiningQuery>
           </EntitySet>
@@ -449,16 +449,16 @@
         </EntityType>
         <EntityType Name="Service">
           <Key>
-            <PropertyRef Name="Наименование_услуги" />
-            <PropertyRef Name="Длительность" />
-            <PropertyRef Name="Стоимость" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Duration" />
+            <PropertyRef Name="Cost" />
           </Key>
           <Property Name="ID" Type="Int32" />
-          <Property Name="Наименование_услуги" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Главное_изображение" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Длительность" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Стоимость" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Действующая_скидка" Type="Double" />
+          <Property Name="Duration" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="Double" />
           <Property Name="Описание" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_client_a_import11__1__Gender">
@@ -553,7 +553,7 @@
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="habirova_autoserviceEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="habirova_autoserviceEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Client" EntityType="Self.Client" />
           <EntitySet Name="ClientService" EntityType="Self.ClientService" />
           <EntitySet Name="DocumentByService" EntityType="Self.DocumentByService" />
@@ -607,7 +607,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище habirova_autoserviceModelContainer" CdmEntityContainer="habirova_autoserviceEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище habirova_autoserviceModelContainer" CdmEntityContainer="habirova_autoserviceEntities1">
           <EntitySetMapping Name="Client">
             <EntityTypeMapping TypeName="habirova_autoserviceModel.Client">
               <MappingFragment StoreEntitySet="Client">
@@ -715,11 +715,11 @@
             <EntityTypeMapping TypeName="habirova_autoserviceModel.Service">
               <MappingFragment StoreEntitySet="Service">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Наименование_услуги" ColumnName="Наименование_услуги" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Главное_изображение" ColumnName="Главное_изображение" />
-                <ScalarProperty Name="Длительность" ColumnName="Длительность" />
-                <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
-                <ScalarProperty Name="Действующая_скидка" ColumnName="Действующая_скидка" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Описание" ColumnName="Описание" />
               </MappingFragment>
             </EntityTypeMapping>

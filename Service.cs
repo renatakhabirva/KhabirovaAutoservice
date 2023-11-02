@@ -15,11 +15,11 @@ namespace KhabirovaAutoservice
     public partial class Service
     {
         public Nullable<int> ID { get; set; }
-        public string Наименование_услуги { get; set; }
+        public string Title { get; set; }
         public string Главное_изображение { get; set; }
-        public string Длительность { get; set; }
-        public decimal Стоимость { get; set; }
-        public Nullable<double> Действующая_скидка { get; set; }
+        public string Duration { get; set; }
+        public decimal Cost { get; set; }
+        public Nullable<double> Discount { get; set; }
         public string Описание { get; set; }
     }
 }
