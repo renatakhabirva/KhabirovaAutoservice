@@ -34,14 +34,7 @@ namespace KhabirovaAutoservice
 
         private void MainFrame_ContentRenderend(object sender, EventArgs e)
         {
-            if (MainFrame.CanGoBack)
-            {
-                BtnBack.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                BtnBack.Visibility = Visibility.Hidden;
-            }
+            
         }
     }
 }

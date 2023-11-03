@@ -20,9 +20,24 @@ namespace KhabirovaAutoservice
     /// </summary>
     public partial class AddEditPage : Page
     {
+        private Service _currentService = new Service();
         public AddEditPage()
         {
             InitializeComponent();
+            DataContext = _currentService;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder errors = new StringBuilder();
+            if (string.IsNullOrWhiteSpace(_currentService.Title))
+                errors.AppendLine("Укажите название услуги");
+            if (_currentService.Cost == 0)
+                errors.AppendLine("Укажите стоимость услуги");
+            if (string.IsNullOrWhiteSpace(_currentService.Discount.ToString()));
+                errors.AppendLine("Укажите скидку");
+            if (string.IsNullOrWhiteSpace(_currentService.Duration.ToString())) ;
+                errors.AppendLine("Укажите длительность услуги");
         }
     }
 }

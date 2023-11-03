@@ -37,21 +37,21 @@ namespace KhabirovaAutoservice
             }
             if (ComboType.SelectedIndex == 1)
             {
-                currentServices = currentServices.Where(p => (p.Discount >= 0 && p.Discount <= 5)).ToList();
+                currentServices = currentServices.Where(p => (p.Discount >= 0 && p.Discount < 5)).ToList();
             }
             if (ComboType.SelectedIndex == 2)
             {
-                currentServices = currentServices.Where(p => (p.Discount >= 5 && p.Discount <= 15)).ToList();
+                currentServices = currentServices.Where(p => (p.Discount >= 5 && p.Discount < 15)).ToList();
             }
             if (ComboType.SelectedIndex == 3)
             {
-                currentServices = currentServices.Where(p => (p.Discount >= 15 && p.Discount <= 30)).ToList();
+                currentServices = currentServices.Where(p => (p.Discount >= 15 && p.Discount < 30)).ToList();
             }
             if (ComboType.SelectedIndex == 4)
             {
-                currentServices = currentServices.Where(p => (p.Discount >= 30 && p.Discount <= 70)).ToList();
+                currentServices = currentServices.Where(p => (p.Discount >= 30 && p.Discount < 70)).ToList();
             }
-            if (ComboType.SelectedIndex == 3)
+            if (ComboType.SelectedIndex == 5)
             {
                 currentServices = currentServices.Where(p => (p.Discount >= 70 && p.Discount <= 100)).ToList();
             }
@@ -90,6 +90,16 @@ namespace KhabirovaAutoservice
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateServices();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage());
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage());
         }
     }
 }
