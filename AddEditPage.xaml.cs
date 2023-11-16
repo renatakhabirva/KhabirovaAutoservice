@@ -45,6 +45,21 @@ namespace KhabirovaAutoservice
                 MessageBox.Show(errors.ToString());
                     return;
             }
+            if (_currentService.Cost <= 0)
+            {
+                MessageBox.Show("Стоимость введена неверно");
+                return;
+            }
+            if (_currentService.Discount <= 0)
+            {
+                MessageBox.Show("Скидка введена неверно");
+                return;
+            }
+            if (_currentService.Duration <= 0)
+            {
+                MessageBox.Show("Длительность введена неверно");
+                return;
+            }
             if (_currentService.ID == 0)
             {
                 Khabirova_autoserviceEntities.GetContext().Service.Add(_currentService);
