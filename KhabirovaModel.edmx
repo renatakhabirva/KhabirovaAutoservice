@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище habirova_autoserviceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище Khabirova_autoserviceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AttachedProduct">
           <Key>
             <PropertyRef Name="MainProductID" />
@@ -13,19 +13,19 @@
           <Property Name="MainProductID" Type="int" Nullable="false" />
           <Property Name="AttachedProductID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Client">
+        <EntityType Name="client_a_import">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Отчество" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Пол" Type="nchar" MaxLength="1" Nullable="false" />
-          <Property Name="Телефон" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Дата_рождения" Type="date" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Дата_регистрации" Type="date" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="GenderCode" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientService">
           <Key>
@@ -90,21 +90,17 @@
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="ClientServiceID" Type="int" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "habirova_autoservice.dbo.Service" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Service">
           <Key>
-            <PropertyRef Name="Title" />
-            <PropertyRef Name="Duration" />
-            <PropertyRef Name="Cost" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Главное_изображение" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Duration" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="MainImagePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Duration" Type="int" Nullable="false" />
           <Property Name="Cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Discount" Type="float" />
-          <Property Name="Описание" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ServicePhoto">
           <Key>
@@ -154,27 +150,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_client_a_import11 (1)_Gender">
+        <Association Name="FK_client_a_import_Gender">
           <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <End Role="client_a_import" Type="Self.client_a_import" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Gender">
               <PropertyRef Name="Code" />
             </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="Пол" />
+            <Dependent Role="client_a_import">
+              <PropertyRef Name="GenderCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClientService_client_a_import11 (1)">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+        <Association Name="FK_ClientService_client_a_import">
+          <End Role="client_a_import" Type="Self.client_a_import" Multiplicity="1" />
           <End Role="ClientService" Type="Self.ClientService" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Client">
+            <Principal Role="client_a_import">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="ClientService">
               <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="ClientService" Type="Self.ClientService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClientService">
+              <PropertyRef Name="ServiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -238,11 +246,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TagOfClient_client_a_import11 (1)">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+        <Association Name="FK_ServicePhoto_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="ServicePhoto" Type="Self.ServicePhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ServicePhoto">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagOfClient_client_a_import">
+          <End Role="client_a_import" Type="Self.client_a_import" Multiplicity="1" />
           <End Role="TagOfClient" Type="Self.TagOfClient" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Client">
+            <Principal Role="client_a_import">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TagOfClient">
@@ -262,9 +282,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище habirova_autoserviceModelContainer">
+        <EntityContainer Name="Хранилище Khabirova_autoserviceModelContainer">
           <EntitySet Name="AttachedProduct" EntityType="Self.AttachedProduct" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="client_a_import" EntityType="Self.client_a_import" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientService" EntityType="Self.ClientService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentByService" EntityType="Self.DocumentByService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
@@ -272,20 +292,10 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductPhoto" EntityType="Self.ProductPhoto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductSale" EntityType="Self.ProductSale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServicePhoto" EntityType="Self.ServicePhoto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TagOfClient" EntityType="Self.TagOfClient" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Service" EntityType="Self.Service" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Service].[ID] AS [ID], 
-    [Service].[Title] AS [Title], 
-    [Service].[Главное_изображение] AS [Главное_изображение], 
-    [Service].[Duration] AS [Duration], 
-    [Service].[Cost] AS [Cost], 
-    [Service].[Discount] AS [Discount], 
-    [Service].[Описание] AS [Описание]
-    FROM [dbo].[Service] AS [Service]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_AttachedProduct_Product" Association="Self.FK_AttachedProduct_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="AttachedProduct" EntitySet="AttachedProduct" />
@@ -294,12 +304,16 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="AttachedProduct" EntitySet="AttachedProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK_client_a_import11 (1)_Gender" Association="Self.FK_client_a_import11 (1)_Gender">
+          <AssociationSet Name="FK_client_a_import_Gender" Association="Self.FK_client_a_import_Gender">
             <End Role="Gender" EntitySet="Gender" />
-            <End Role="Client" EntitySet="Client" />
+            <End Role="client_a_import" EntitySet="client_a_import" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientService_client_a_import11 (1)" Association="Self.FK_ClientService_client_a_import11 (1)">
-            <End Role="Client" EntitySet="Client" />
+          <AssociationSet Name="FK_ClientService_client_a_import" Association="Self.FK_ClientService_client_a_import">
+            <End Role="client_a_import" EntitySet="client_a_import" />
+            <End Role="ClientService" EntitySet="ClientService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientService_Service" Association="Self.FK_ClientService_Service">
+            <End Role="Service" EntitySet="Service" />
             <End Role="ClientService" EntitySet="ClientService" />
           </AssociationSet>
           <AssociationSet Name="FK_DocumentByService_ClientService" Association="Self.FK_DocumentByService_ClientService">
@@ -322,8 +336,12 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductSale" EntitySet="ProductSale" />
           </AssociationSet>
-          <AssociationSet Name="FK_TagOfClient_client_a_import11 (1)" Association="Self.FK_TagOfClient_client_a_import11 (1)">
-            <End Role="Client" EntitySet="Client" />
+          <AssociationSet Name="FK_ServicePhoto_Service" Association="Self.FK_ServicePhoto_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ServicePhoto" EntitySet="ServicePhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagOfClient_client_a_import" Association="Self.FK_TagOfClient_client_a_import">
+            <End Role="client_a_import" EntitySet="client_a_import" />
             <End Role="TagOfClient" EntitySet="TagOfClient" />
           </AssociationSet>
           <AssociationSet Name="FK_TagOfClient_Tag" Association="Self.FK_TagOfClient_Tag">
@@ -335,23 +353,23 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="habirova_autoserviceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Client">
+      <Schema Namespace="Khabirova_autoserviceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="client_a_import">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Пол" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Дата_рождения" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Дата_регистрации" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Gender" Relationship="Self.FK_client_a_import11__1__Gender" FromRole="Client" ToRole="Gender" />
-          <NavigationProperty Name="ClientService" Relationship="Self.FK_ClientService_client_a_import11__1_" FromRole="Client" ToRole="ClientService" />
-          <NavigationProperty Name="Tag" Relationship="Self.TagOfClient" FromRole="Client" ToRole="Tag" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GenderCode" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK_client_a_import_Gender" FromRole="client_a_import" ToRole="Gender" />
+          <NavigationProperty Name="ClientService" Relationship="Self.FK_ClientService_client_a_import" FromRole="client_a_import" ToRole="ClientService" />
+          <NavigationProperty Name="Tag" Relationship="Self.TagOfClient" FromRole="client_a_import" ToRole="Tag" />
         </EntityType>
         <EntityType Name="ClientService">
           <Key>
@@ -362,7 +380,8 @@
           <Property Name="ServiceID" Type="Int32" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_ClientService_client_a_import11__1_" FromRole="ClientService" ToRole="Client" />
+          <NavigationProperty Name="client_a_import" Relationship="Self.FK_ClientService_client_a_import" FromRole="ClientService" ToRole="client_a_import" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_ClientService_Service" FromRole="ClientService" ToRole="Service" />
           <NavigationProperty Name="DocumentByService" Relationship="Self.FK_DocumentByService_ClientService" FromRole="ClientService" ToRole="DocumentByService" />
           <NavigationProperty Name="ProductSale" Relationship="Self.FK_ProductSale_ClientService" FromRole="ClientService" ToRole="ProductSale" />
         </EntityType>
@@ -381,7 +400,7 @@
           </Key>
           <Property Name="Code" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_client_a_import11__1__Gender" FromRole="Gender" ToRole="Client" />
+          <NavigationProperty Name="client_a_import" Relationship="Self.FK_client_a_import_Gender" FromRole="Gender" ToRole="client_a_import" />
         </EntityType>
         <EntityType Name="Manufacturer">
           <Key>
@@ -430,6 +449,20 @@
           <NavigationProperty Name="ClientService" Relationship="Self.FK_ProductSale_ClientService" FromRole="ProductSale" ToRole="ClientService" />
           <NavigationProperty Name="Product" Relationship="Self.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
         </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MainImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientService" Relationship="Self.FK_ClientService_Service" FromRole="Service" ToRole="ClientService" />
+          <NavigationProperty Name="ServicePhoto" Relationship="Self.FK_ServicePhoto_Service" FromRole="Service" ToRole="ServicePhoto" />
+        </EntityType>
         <EntityType Name="ServicePhoto">
           <Key>
             <PropertyRef Name="ID" />
@@ -437,6 +470,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceID" Type="Int32" Nullable="false" />
           <Property Name="PhotoPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_ServicePhoto_Service" FromRole="ServicePhoto" ToRole="Service" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -445,43 +479,41 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Color" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Client" Relationship="Self.TagOfClient" FromRole="Tag" ToRole="Client" />
+          <NavigationProperty Name="client_a_import" Relationship="Self.TagOfClient" FromRole="Tag" ToRole="client_a_import" />
         </EntityType>
-        <EntityType Name="Service">
-          <Key>
-            <PropertyRef Name="Title" />
-            <PropertyRef Name="Duration" />
-            <PropertyRef Name="Cost" />
-          </Key>
-          <Property Name="ID" Type="Int32" />
-          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Главное_изображение" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Duration" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Discount" Type="Double" />
-          <Property Name="Описание" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_client_a_import11__1__Gender">
+        <Association Name="FK_client_a_import_Gender">
           <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <End Role="client_a_import" Type="Self.client_a_import" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Gender">
               <PropertyRef Name="Code" />
             </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="Пол" />
+            <Dependent Role="client_a_import">
+              <PropertyRef Name="GenderCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClientService_client_a_import11__1_">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+        <Association Name="FK_ClientService_client_a_import">
+          <End Role="client_a_import" Type="Self.client_a_import" Multiplicity="1" />
           <End Role="ClientService" Type="Self.ClientService" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Client">
+            <Principal Role="client_a_import">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="ClientService">
               <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="ClientService" Type="Self.ClientService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClientService">
+              <PropertyRef Name="ServiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -545,16 +577,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ServicePhoto_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="ServicePhoto" Type="Self.ServicePhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ServicePhoto">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AttachedProduct">
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <End Role="Product1" Type="Self.Product" Multiplicity="*" />
         </Association>
         <Association Name="TagOfClient">
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <End Role="client_a_import" Type="Self.client_a_import" Multiplicity="*" />
           <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="habirova_autoserviceEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Client" EntityType="Self.Client" />
+        <EntityContainer Name="Khabirova_autoserviceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="client_a_import" EntityType="Self.client_a_import" />
           <EntitySet Name="ClientService" EntityType="Self.ClientService" />
           <EntitySet Name="DocumentByService" EntityType="Self.DocumentByService" />
           <EntitySet Name="Gender" EntityType="Self.Gender" />
@@ -562,15 +606,19 @@
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="ProductPhoto" EntityType="Self.ProductPhoto" />
           <EntitySet Name="ProductSale" EntityType="Self.ProductSale" />
+          <EntitySet Name="Service" EntityType="Self.Service" />
           <EntitySet Name="ServicePhoto" EntityType="Self.ServicePhoto" />
           <EntitySet Name="Tag" EntityType="Self.Tag" />
-          <EntitySet Name="Service" EntityType="Self.Service" />
-          <AssociationSet Name="FK_client_a_import11__1__Gender" Association="Self.FK_client_a_import11__1__Gender">
+          <AssociationSet Name="FK_client_a_import_Gender" Association="Self.FK_client_a_import_Gender">
             <End Role="Gender" EntitySet="Gender" />
-            <End Role="Client" EntitySet="Client" />
+            <End Role="client_a_import" EntitySet="client_a_import" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientService_client_a_import11__1_" Association="Self.FK_ClientService_client_a_import11__1_">
-            <End Role="Client" EntitySet="Client" />
+          <AssociationSet Name="FK_ClientService_client_a_import" Association="Self.FK_ClientService_client_a_import">
+            <End Role="client_a_import" EntitySet="client_a_import" />
+            <End Role="ClientService" EntitySet="ClientService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientService_Service" Association="Self.FK_ClientService_Service">
+            <End Role="Service" EntitySet="Service" />
             <End Role="ClientService" EntitySet="ClientService" />
           </AssociationSet>
           <AssociationSet Name="FK_DocumentByService_ClientService" Association="Self.FK_DocumentByService_ClientService">
@@ -593,12 +641,16 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductSale" EntitySet="ProductSale" />
           </AssociationSet>
+          <AssociationSet Name="FK_ServicePhoto_Service" Association="Self.FK_ServicePhoto_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ServicePhoto" EntitySet="ServicePhoto" />
+          </AssociationSet>
           <AssociationSet Name="AttachedProduct" Association="Self.AttachedProduct">
             <End Role="Product" EntitySet="Product" />
             <End Role="Product1" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="TagOfClient" Association="Self.TagOfClient">
-            <End Role="Client" EntitySet="Client" />
+            <End Role="client_a_import" EntitySet="client_a_import" />
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
         </EntityContainer>
@@ -607,24 +659,24 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище habirova_autoserviceModelContainer" CdmEntityContainer="habirova_autoserviceEntities1">
-          <EntitySetMapping Name="Client">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.Client">
-              <MappingFragment StoreEntitySet="Client">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Khabirova_autoserviceModelContainer" CdmEntityContainer="Khabirova_autoserviceEntities">
+          <EntitySetMapping Name="client_a_import">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.client_a_import">
+              <MappingFragment StoreEntitySet="client_a_import">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
-                <ScalarProperty Name="Имя" ColumnName="Имя" />
-                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
-                <ScalarProperty Name="Пол" ColumnName="Пол" />
-                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
-                <ScalarProperty Name="Дата_рождения" ColumnName="Дата_рождения" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="GenderCode" ColumnName="GenderCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Дата_регистрации" ColumnName="Дата_регистрации" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientService">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.ClientService">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.ClientService">
               <MappingFragment StoreEntitySet="ClientService">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
@@ -635,7 +687,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DocumentByService">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.DocumentByService">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.DocumentByService">
               <MappingFragment StoreEntitySet="DocumentByService">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ClientServiceID" ColumnName="ClientServiceID" />
@@ -644,7 +696,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Gender">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.Gender">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.Gender">
               <MappingFragment StoreEntitySet="Gender">
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -652,7 +704,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Manufacturer">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.Manufacturer">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.Manufacturer">
               <MappingFragment StoreEntitySet="Manufacturer">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -661,7 +713,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.Product">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -674,7 +726,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductPhoto">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.ProductPhoto">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.ProductPhoto">
               <MappingFragment StoreEntitySet="ProductPhoto">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
@@ -683,7 +735,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductSale">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.ProductSale">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.ProductSale">
               <MappingFragment StoreEntitySet="ProductSale">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="SaleDate" ColumnName="SaleDate" />
@@ -693,8 +745,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MainImagePath" ColumnName="MainImagePath" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ServicePhoto">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.ServicePhoto">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.ServicePhoto">
               <MappingFragment StoreEntitySet="ServicePhoto">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
@@ -703,7 +768,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tag">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.Tag">
+            <EntityTypeMapping TypeName="Khabirova_autoserviceModel.Tag">
               <MappingFragment StoreEntitySet="Tag">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -711,20 +776,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Service">
-            <EntityTypeMapping TypeName="habirova_autoserviceModel.Service">
-              <MappingFragment StoreEntitySet="Service">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Главное_изображение" ColumnName="Главное_изображение" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="Описание" ColumnName="Описание" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AttachedProduct" TypeName="habirova_autoserviceModel.AttachedProduct" StoreEntitySet="AttachedProduct">
+          <AssociationSetMapping Name="AttachedProduct" TypeName="Khabirova_autoserviceModel.AttachedProduct" StoreEntitySet="AttachedProduct">
             <EndProperty Name="Product">
               <ScalarProperty Name="ID" ColumnName="MainProductID" />
             </EndProperty>
@@ -732,8 +784,8 @@
               <ScalarProperty Name="ID" ColumnName="AttachedProductID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="TagOfClient" TypeName="habirova_autoserviceModel.TagOfClient" StoreEntitySet="TagOfClient">
-            <EndProperty Name="Client">
+          <AssociationSetMapping Name="TagOfClient" TypeName="Khabirova_autoserviceModel.TagOfClient" StoreEntitySet="TagOfClient">
+            <EndProperty Name="client_a_import">
               <ScalarProperty Name="ID" ColumnName="ClientID" />
             </EndProperty>
             <EndProperty Name="Tag">

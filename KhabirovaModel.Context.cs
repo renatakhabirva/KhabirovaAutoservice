@@ -13,17 +13,17 @@ namespace KhabirovaAutoservice
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class habirova_autoserviceEntities1 : DbContext
+    public partial class Khabirova_autoserviceEntities : DbContext
     {
-        private static habirova_autoserviceEntities1 _context;
-        public static habirova_autoserviceEntities1 GetContext()
+        private static Khabirova_autoserviceEntities _context;
+        public static Khabirova_autoserviceEntities GetContext()
         {
             if (_context == null)
-                _context = new habirova_autoserviceEntities1();
+                _context = new Khabirova_autoserviceEntities();
             return _context;
         }
-        public habirova_autoserviceEntities1()
-            : base("name=habirova_autoserviceEntities1")
+        public Khabirova_autoserviceEntities()
+            : base("name=Khabirova_autoserviceEntities")
         {
         }
     
@@ -32,7 +32,7 @@ namespace KhabirovaAutoservice
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Client> Client { get; set; }
+        public virtual DbSet<client_a_import> client_a_import { get; set; }
         public virtual DbSet<ClientService> ClientService { get; set; }
         public virtual DbSet<DocumentByService> DocumentByService { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
@@ -40,8 +40,8 @@ namespace KhabirovaAutoservice
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductPhoto> ProductPhoto { get; set; }
         public virtual DbSet<ProductSale> ProductSale { get; set; }
+        public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<ServicePhoto> ServicePhoto { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
-        public virtual DbSet<Service> Service { get; set; }
     }
 }

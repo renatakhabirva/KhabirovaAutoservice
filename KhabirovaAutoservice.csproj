@@ -68,10 +68,10 @@
     <Compile Include="AddEditPage.xaml.cs">
       <DependentUpon>AddEditPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Client.cs">
+    <Compile Include="ClientService.cs">
       <DependentUpon>KhabirovaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClientService.cs">
+    <Compile Include="client_a_import.cs">
       <DependentUpon>KhabirovaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DocumentByService.cs">
@@ -107,6 +107,11 @@
     </Compile>
     <Compile Include="ProductSale.cs">
       <DependentUpon>KhabirovaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Service.cs">
       <DependentUpon>KhabirovaModel.tt</DependentUpon>
@@ -144,11 +149,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -195,6 +195,7 @@
       <DependentUpon>KhabirovaModel.edmx</DependentUpon>
       <LastGenOutput>KhabirovaModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\picture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,13 +17,13 @@ namespace KhabirovaAutoservice
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Gender()
         {
-            this.Client = new HashSet<Client>();
+            this.client_a_import = new HashSet<client_a_import>();
         }
     
         public string Code { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Client> Client { get; set; }
+        public virtual ICollection<client_a_import> client_a_import { get; set; }
     }
 }

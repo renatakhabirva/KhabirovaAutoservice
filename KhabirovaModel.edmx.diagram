@@ -4,27 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="698a2fd332d5471f990523e175185b89" Name="Diagram1">
-        <EntityTypeShape EntityType="habirova_autoserviceModel.Client" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.ClientService" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.DocumentByService" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.Gender" Width="1.5" PointX="1.5" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.Manufacturer" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.Product" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.ProductPhoto" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.ProductSale" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.ServicePhoto" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.Tag" Width="1.5" PointX="3" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="habirova_autoserviceModel.Service" Width="1.5" PointX="7.75" PointY="5.125" IsExpanded="true" />
-        <AssociationConnector Association="habirova_autoserviceModel.FK_client_a_import11__1__Gender" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.FK_ClientService_client_a_import11__1_" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.FK_DocumentByService_ClientService" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.FK_ProductSale_ClientService" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.FK_Product_Manufacturer" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.FK_ProductPhoto_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.FK_ProductSale_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.AttachedProduct" ManuallyRouted="false" />
-        <AssociationConnector Association="habirova_autoserviceModel.TagOfClient" ManuallyRouted="false" />
+      <Diagram DiagramId="2f361d68f58b4371bc02c0ae01e61184" Name="Diagram1" ZoomLevel="105">
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.client_a_import" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.ClientService" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.DocumentByService" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.Gender" Width="1.5" PointX="1.5" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.Manufacturer" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.Product" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.ProductPhoto" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.ProductSale" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.Service" Width="1.5" PointX="0.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.ServicePhoto" Width="1.5" PointX="3" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="Khabirova_autoserviceModel.Tag" Width="1.5" PointX="3" PointY="16.25" IsExpanded="true" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_client_a_import_Gender" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_ClientService_client_a_import" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_ClientService_Service" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_DocumentByService_ClientService" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_ProductSale_ClientService" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_Product_Manufacturer" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_ProductPhoto_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_ProductSale_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.FK_ServicePhoto_Service" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.AttachedProduct" ManuallyRouted="false" />
+        <AssociationConnector Association="Khabirova_autoserviceModel.TagOfClient" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
