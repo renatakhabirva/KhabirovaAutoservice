@@ -150,6 +150,7 @@ namespace KhabirovaAutoservice
             }
             ServiceListView.ItemsSource = currentServices;
             TableList = currentServices;
+            ChangePage(0,0);
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -201,6 +202,10 @@ namespace KhabirovaAutoservice
             var currentService = (sender as Button).DataContext as Service;
             var currentClientServices = Khabirova_autoserviceEntities.GetContext().ClientService.ToList();
             currentClientServices = currentClientServices.Where(p => p.ServiceID == currentService.ID).ToList();
+            if (currentClientServices.Count != 0)
+                MessageBox.Show("Невозможно выполнить удаление, так как существует запись на эту услугу");
+            else
+            { 
             if (MessageBox.Show("Вы точно хотите выполнить удаление?", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
@@ -213,6 +218,7 @@ namespace KhabirovaAutoservice
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
+            }
             }
         }
 
@@ -230,7 +236,10 @@ namespace KhabirovaAutoservice
         {
             ChangePage(2, null);
         }
-        
 
+        private void SignUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new SignUpPage((sender as Button).DataContext as Service));
+        }
     }
 }

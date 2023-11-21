@@ -38,5 +38,6 @@
                  HorizontalAlignment="Left"  Text="{Binding Discount}"></TextBox>
         <Button Name="SaveButton" Content="Сохранить" Grid.Row="4"
                 Grid.Column="0" Grid.ColumnSpan="2" Click="SaveButton_Click"></Button>
+
     </Grid>
 </Page>

@@ -50,7 +50,7 @@ namespace KhabirovaAutoservice
                 MessageBox.Show("Стоимость введена неверно");
                 return;
             }
-            if (_currentService.Discount <= 0)
+            if (_currentService.Discount < 0 || _currentService.Discount > 100)
             {
                 MessageBox.Show("Скидка введена неверно");
                 return;
@@ -58,6 +58,11 @@ namespace KhabirovaAutoservice
             if (_currentService.Duration <= 0)
             {
                 MessageBox.Show("Длительность введена неверно");
+                return;
+            }
+            if (_currentService.Duration > 240)
+            {
+                MessageBox.Show("Длительность не может быть более 240 минут");
                 return;
             }
             if (_currentService.ID == 0)
@@ -74,6 +79,11 @@ namespace KhabirovaAutoservice
             {
                 MessageBox.Show(ex.Message.ToString());
             }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.GoBack();
         }
     }
 }
