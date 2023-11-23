@@ -13,17 +13,17 @@ namespace KhabirovaAutoservice
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Khabirova_autoserviceEntities : DbContext
+    public partial class Khabirova_autoserviceEntities2 : DbContext
     {
-        private static Khabirova_autoserviceEntities _context;
-        public static Khabirova_autoserviceEntities GetContext()
+        private static Khabirova_autoserviceEntities2 _context;
+        public static Khabirova_autoserviceEntities2 GetContext()
         {
-            if (_context == null)
-                _context = new Khabirova_autoserviceEntities();
+            if(_context == null)
+                _context = new Khabirova_autoserviceEntities2();
             return _context;
         }
-        public Khabirova_autoserviceEntities()
-            : base("name=Khabirova_autoserviceEntities")
+        public Khabirova_autoserviceEntities2()
+            : base("name=Khabirova_autoserviceEntities2")
         {
         }
     

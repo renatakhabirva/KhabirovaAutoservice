@@ -39,7 +39,9 @@ namespace KhabirovaAutoservice
             get
             {
                 if (Discount > 0)
+                {
                     return Cost.ToString();
+                }
                 else
                 {
                     return "";
@@ -52,7 +54,7 @@ namespace KhabirovaAutoservice
             {
                 if (Discount > 0)
                 {
-                    return ((decimal)Cost - (decimal)Cost * (decimal)Discount / 100);
+                    return ((decimal)Cost - (decimal)Cost * (decimal)Discount/100);
                 }
                 else
                 {
@@ -62,12 +64,11 @@ namespace KhabirovaAutoservice
         }
         public SolidColorBrush FonStyle
         {
-            get
+            get 
             {
-                if (Discount > 0)
+                if (Discount > 0) 
                 {
                     return (SolidColorBrush)new BrushConverter().ConvertFromString("LightGreen");
-
                 }
                 else
                 {

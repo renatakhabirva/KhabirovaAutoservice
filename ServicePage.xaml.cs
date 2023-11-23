@@ -107,14 +107,14 @@ namespace KhabirovaAutoservice
         public ServicePage()
         {
             InitializeComponent();
-            var currentServices = Khabirova_autoserviceEntities.GetContext().Service.ToList();
+            var currentServices = Khabirova_autoserviceEntities2.GetContext().Service.ToList();
             ServiceListView.ItemsSource = currentServices;
             ComboType.SelectedIndex = 0;
             UpdateServices();
         }
         private void UpdateServices()
         {
-            var currentServices = Khabirova_autoserviceEntities.GetContext().Service.ToList();
+            var currentServices = Khabirova_autoserviceEntities2.GetContext().Service.ToList();
             if (ComboType.SelectedIndex == 0)
             {
                 currentServices = currentServices.Where(p => (p.Discount >= 0 && p.Discount <= 100)).ToList();
@@ -192,15 +192,15 @@ namespace KhabirovaAutoservice
         {
             if (Visibility == Visibility.Visible)
             {
-                Khabirova_autoserviceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-                ServiceListView.ItemsSource = Khabirova_autoserviceEntities.GetContext().Service.ToList();
+                Khabirova_autoserviceEntities2.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                ServiceListView.ItemsSource = Khabirova_autoserviceEntities2.GetContext().Service.ToList();
             }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var currentService = (sender as Button).DataContext as Service;
-            var currentClientServices = Khabirova_autoserviceEntities.GetContext().ClientService.ToList();
+            var currentClientServices = Khabirova_autoserviceEntities2.GetContext().ClientService.ToList();
             currentClientServices = currentClientServices.Where(p => p.ServiceID == currentService.ID).ToList();
             if (currentClientServices.Count != 0)
                 MessageBox.Show("Невозможно выполнить удаление, так как существует запись на эту услугу");
@@ -210,9 +210,9 @@ namespace KhabirovaAutoservice
             {
                 try
                 {
-                    Khabirova_autoserviceEntities.GetContext().Service.Remove(currentService);
-                    Khabirova_autoserviceEntities.GetContext().SaveChanges();
-                    ServiceListView.ItemsSource = Khabirova_autoserviceEntities.GetContext().Service.ToList();
+                    Khabirova_autoserviceEntities2.GetContext().Service.Remove(currentService);
+                    Khabirova_autoserviceEntities2.GetContext().SaveChanges();
+                    ServiceListView.ItemsSource = Khabirova_autoserviceEntities2.GetContext().Service.ToList();
                 }
                 catch (Exception ex)
                 {

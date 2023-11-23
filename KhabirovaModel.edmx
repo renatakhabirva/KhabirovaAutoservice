@@ -597,7 +597,7 @@
           <End Role="client_a_import" Type="Self.client_a_import" Multiplicity="*" />
           <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="Khabirova_autoserviceEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Khabirova_autoserviceEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="client_a_import" EntityType="Self.client_a_import" />
           <EntitySet Name="ClientService" EntityType="Self.ClientService" />
           <EntitySet Name="DocumentByService" EntityType="Self.DocumentByService" />
@@ -659,7 +659,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище Khabirova_autoserviceModelContainer" CdmEntityContainer="Khabirova_autoserviceEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Khabirova_autoserviceModelContainer" CdmEntityContainer="Khabirova_autoserviceEntities2">
           <EntitySetMapping Name="client_a_import">
             <EntityTypeMapping TypeName="Khabirova_autoserviceModel.client_a_import">
               <MappingFragment StoreEntitySet="client_a_import">

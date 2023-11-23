@@ -40,11 +40,7 @@ namespace KhabirovaAutoservice
                 errors.AppendLine("Укажите скидку");
             if (string.IsNullOrWhiteSpace(_currentService.Duration.ToString())) 
                 errors.AppendLine("Укажите длительность услуги");
-            if (errors.Length > 0)
-            {
-                MessageBox.Show(errors.ToString());
-                    return;
-            }
+           
             if (_currentService.Cost <= 0)
             {
                 MessageBox.Show("Стоимость введена неверно");
@@ -55,29 +51,36 @@ namespace KhabirovaAutoservice
                 MessageBox.Show("Скидка введена неверно");
                 return;
             }
-            if (_currentService.Duration <= 0)
+            
+            if(_currentService.Duration > 240 || _currentService.Duration <0)
+                errors.AppendLine("Длительность не может быть больше 240 и меньше 0");
+            if (errors.Length > 0)
             {
-                MessageBox.Show("Длительность введена неверно");
+                MessageBox.Show(errors.ToString());
                 return;
             }
-            if (_currentService.Duration > 240)
-            {
-                MessageBox.Show("Длительность не может быть более 240 минут");
-                return;
-            }
+            var allServices = Khabirova_autoserviceEntities2.GetContext().Service.ToList();
+            allServices = allServices.Where(p=> p.Title == _currentService.Title).ToList();
+            if (allServices.Count == 0)
+            { 
             if (_currentService.ID == 0)
             {
-                Khabirova_autoserviceEntities.GetContext().Service.Add(_currentService);
+                Khabirova_autoserviceEntities2.GetContext().Service.Add(_currentService);
             }
             try
             {
-                Khabirova_autoserviceEntities.GetContext().SaveChanges();
+                Khabirova_autoserviceEntities2.GetContext().SaveChanges();
                 MessageBox.Show("Информация сохранена");
                 Manager.MainFrame.GoBack();
             }
             catch (Exception ex) 
             {
                 MessageBox.Show(ex.Message.ToString());
+            }
+            }
+            else
+            {
+                MessageBox.Show("Уже существует такая услуга");
             }
         }
 

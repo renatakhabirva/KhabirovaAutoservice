@@ -93,7 +93,7 @@
                             <TextBlock Text="{Binding NewCost}" FontSize="20" Margin="5"></TextBlock>
                             <TextBlock Text="рублей за " FontSize="20" Margin="5"></TextBlock>
                             <TextBlock Text="{Binding DurationIn}" FontSize="20" Margin="5"></TextBlock>
-                            <TextBlock Text=" мин. " FontSize="20" Margin="5"></TextBlock>
+                            
                         </StackPanel>
                         
                         <TextBlock Text="{Binding Duration, StringFormat={}{0:0} мин}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" FontSize="20"></TextBlock>
