@@ -14,7 +14,10 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
+            
         </Grid.RowDefinitions>
+        
+
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock Name="TBCount" FontSize="20" Height="20"></TextBlock>
             <TextBlock Name="TBallRecords" FontSize="20" Height="20"></TextBlock>
@@ -61,13 +64,14 @@
         </StackPanel>
         <Button Content="Добавить" Name="AddButton" Click="AddButton_Click"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
-        <ListView Name="ServiceListView" Grid.Row="2">
+        <ListView Name="ServiceListView" Grid.Row="2" SelectionChanged="ServiceListView_SelectionChanged" RenderTransformOrigin="0.5,0.5" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Background="{Binding FonStyle}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="1310"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>

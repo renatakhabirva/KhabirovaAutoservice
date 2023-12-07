@@ -11,11 +11,13 @@
             <RowDefinition Height="75"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="38"/>
+         
         </Grid.RowDefinitions>
+        
         <Image Source="Resources/service_logo.png" HorizontalAlignment="Left">
         </Image>
         <TextBlock Text="Услуги автосервиса" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-        <Frame Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRenderend" NavigationUIVisibility="Hidden"></Frame>
+        <Frame  Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRenderend" NavigationUIVisibility="Hidden"></Frame>
         <Button Content="Назад" Name="BtnBack" Width="175" Height="30" HorizontalAlignment="Right" Margin="5"
                 Click="BtnBack_Click"></Button>
     </Grid>

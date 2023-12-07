@@ -43,5 +43,8 @@ namespace KhabirovaAutoservice
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<ServicePhoto> ServicePhoto { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
+        public System.Windows.SizeToContent SizeToContent { get; set; }
+        public System.Windows.ResizeMode ResizeMode { get; set; }
+        public static readonly System.Windows.DependencyProperty ResizeModeProperty;
     }
 }

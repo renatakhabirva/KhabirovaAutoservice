@@ -21,6 +21,7 @@ namespace KhabirovaAutoservice
 
     public partial class ServicePage : Page
     {
+        public bool a = false;
         int CountRecords;
         int CountPage;
         int CurrentPage = 0;
@@ -99,8 +100,10 @@ namespace KhabirovaAutoservice
                 min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CurrentPage;
                 TBCount.Text = min.ToString();
                 TBallRecords.Text = " из " + CountRecords.ToString();
+               
                 ServiceListView.ItemsSource = CurrentPageList;
                 ServiceListView.Items.Refresh();
+               
             }
 
         }
@@ -180,21 +183,27 @@ namespace KhabirovaAutoservice
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            a = false;
             Manager.MainFrame.Navigate(new AddEditPage(null));
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
+            a = true;
             Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Service));
+           
         }
 
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Visibility == Visibility.Visible)
             {
+                
                 Khabirova_autoserviceEntities2.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 ServiceListView.ItemsSource = Khabirova_autoserviceEntities2.GetContext().Service.ToList();
+                UpdateServices();
             }
+            
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -220,6 +229,7 @@ namespace KhabirovaAutoservice
                 }
             }
             }
+            UpdateServices();
         }
 
         private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
@@ -240,6 +250,12 @@ namespace KhabirovaAutoservice
         private void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new SignUpPage((sender as Button).DataContext as Service));
+        }
+       
+
+        private void ServiceListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
